@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+}
+
+@*<div class="row form-group">
+    <div class="col-md-12">
+        @{Html.RenderPartial("_HeaderPartial", new ViewDataDictionary() { { "content", "Reports" } });}
+    </div>
+</div>*@
+
+<div class="row form-group" style="margin-top:2em;">
+    <label class="control-label col-md-3">Select a Report</label>
+    <div class="col-md-9">
+        @Html.DropDownList("report-type", (IEnumerable<SelectListItem>)ViewBag.Reports, " -- Select Report -- ", new { @class = "select-2 form-control" })
+    </div>
+</div>
+
+<section id="result"></section>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var largeSpinIcon = "<div class='text-center'><i class='fa fa-spin fa-gear fa-5x'></i></div>";
+
+        $(function () {
+            $("[name=report-type]").change(function () {
+                var val = $(this).val();
+                var result = $("#result");
+
+                if (val) {
+                    result.html(largeSpinIcon);
+                    $.get("@Url.Action("GetReport")", { reportTypeId: val }, function (data) {
+                        result.html(data);
+                    });
+                }
+                else
+                    result.html("");
+            });
+        });
+    </script>
+}

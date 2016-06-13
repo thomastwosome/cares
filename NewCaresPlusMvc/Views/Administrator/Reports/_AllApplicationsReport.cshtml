@@ -1,0 +1,66 @@
+﻿@using NewCaresPlusMvc.Models
+@model List<AllApplicationsReport>
+
+@{
+    const int reportTypeId = (int)ReportType.All_Applications;
+}
+
+@if (Model.Count == 0)
+{
+    Html.RenderPartial("_Fail", "No applications exist");
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <i class="fa fa-file-excel-o"></i>
+            @Html.ActionLink("Excel", "GetReport", new { formatId = (int)ReportViewModel.ReportFormat.Excel, reportTypeId }, new { target = "_blank" })
+            @*<i class="fa fa-file-word-o"></i>
+            @Html.ActionLink("Word", "GetReport", new { formatId = (int)ReportViewModel.ReportFormat.Word, reportTypeId }, new { target = "_blank" }) |
+            <i class="fa fa-file-pdf-o"></i>
+            @Html.ActionLink("Pdf", "GetReport", new { formatId = (int)ReportViewModel.ReportFormat.Pdf, reportTypeId }, new { target = "_blank" })*@
+        </div>
+        <p>&nbsp;</p>
+        <div class="col-md-12">
+            <p>Records: @ViewBag.Count</p>
+            <table class="table table-bordered table-condensed table-hover small">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model[0].FirstName)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].LastName)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].Email)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].EmployerName)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].DirectorFirstName)</th>
+                        <th>@Html.DisplayNameFor(model => model[0].DirectorLastName)</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(model => item.FirstName)</td>
+                            <td>@Html.DisplayFor(model => item.LastName)</td>
+                            <td>@Html.DisplayFor(model => item.Email)</td>
+                            <td>@Html.DisplayFor(model => item.EmployerName)</td>
+                            <td>@Html.DisplayFor(model => item.DirectorFirstName)</td>
+                            <td>@Html.DisplayFor(model => item.DirectorLastName)</td>
+                            <td>@Html.ActionLink("View", "PrintSingleApplication", "Administrator", new { id = item.Id }, null)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            @*<div class="text-right">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("GetReport", new { page, reportTypeId }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "result",
+                    OnComplete = "pagingCallComplete"
+                }))
+            </div>*@
+        </div>
+    </div>
+}

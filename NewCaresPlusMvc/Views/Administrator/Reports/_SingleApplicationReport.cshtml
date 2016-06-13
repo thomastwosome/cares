@@ -1,0 +1,263 @@
+﻿@using NewCaresPlusMvc.Models
+@using NewCaresPlusMvc.Helpers
+@model SingleApplicationViewModel
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <i class="fa fa-print"></i>
+        @Html.ActionLink("Print", "PrintSingleApplication", new { id = Model.Id }, new { target = "_blank" })
+    </div>
+    <p>&nbsp;</p>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Applicant</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.Dob, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.Dob, new
+                {
+                    @class = "form-control datepicker",
+                    @Value = DateTime.MinValue == Model.Dob ? string.Empty : Model.Dob.ToShortDateString()
+                })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.HomePhone, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.HomePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomePhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.WorkPhone, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.WorkPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.WorkPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CellPhone, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingAddress, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.MailingAddress, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingCity, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.MailingCity, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingState, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.MailingState, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingZip, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.MailingZip, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Primary Language(s) Spoken at Home</h4>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlEnglish, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlEnglish", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlEnglish", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlMandarin, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlMandarin", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlMandarin", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlRussian, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlRussian", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlRussian", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlSpanish, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlSpanish", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlSpanish", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlTagalog, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlTagalog", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlTagalog", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlViet, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlViet", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlViet", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlHmong, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlHmong", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlHmong", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlOther, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelFor(model => model.PlSpecify, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.PlSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Education</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Education, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.Education, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Permits and Credentials</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Permit, htmlAttributes: new { @class = "control-label", style = "text-align:left;" })
+                        @Html.DisplayFor(model => model.Permit, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Work Setting</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.EmployerName, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.EmployerName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Setting, htmlAttributes: new { @class = "control-label", style = "text-align:left;" })
+                        @Html.DisplayFor(model => model.Setting, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SettingSpecify, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.SettingSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Position, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PositionSpecify, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.PositionSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FccPosition, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.FccPosition, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FccSpecify, htmlAttributes: new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.FccSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

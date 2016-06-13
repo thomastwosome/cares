@@ -1,0 +1,586 @@
+﻿@model CaresPlusMvc.Areas.Applicant.Models.ApplicationViewModel
+@using CaresPlusMvc.Helpers
+@using System.Linq;
+
+@{
+    ViewBag.Title = "Application";
+    IEnumerable<SelectListItem> fields = (new List<string>() { "ECE/CD", "Related Field" }).ToSelectList(s => s, s => s, s => s == Model.Field);
+}
+
+<h1>2016-17 CARES Plus Application </h1>
+<p>The 2016-17 CARES Plus Application window will open again on May 1, 2016.</p>
+<p style="font-style: italic">
+    Please contact Lori Blackburn at (530) 295-2403 or
+    <a href="mailto:lblackburn@edcoe.org">lblackburn@edcoe.org</a> for questions.
+</p>
+
+<fieldset>
+    <legend>To apply for CARES Plus for 2016-17:</legend>
+    <ul>
+        <li>STEP 1: Complete the online application below.</li>
+        <li>STEP 2: Download and print the <a href="CaresPlusStep2.pdf">Application Documentation</a> (<a href="CaresPlusStep2Spanish.pdf">Spanish</a>) for additional application documents.  Complete and submit by mail or fax to 530-295-1506.</li>
+
+        <li>
+            STEP 3: If you are applying for Component D, My Teaching Partner, you must complete the
+            My Teaching Partner Agreement to Participate (<a href="CaresPlusStep3.pdf">live link to form</a>/<a href="CaresPlusStep3Spanish.pdf">Spanish</a>). For more information click <a href="PK_MTP_Teacher_Info.pdf"><span class="eyecatching">HERE</span></a>.  Applications
+            for the My Teaching Partner option must be received by August 10, 2015.
+        </li>
+    </ul>
+    <p>
+        If you are applying for Component B, you must also submit unofficial transcripts
+        for your application to be considered complete. Unofficial transcripts can be
+        submitted either by mail or fax or personal delivery.
+    </p>
+    <p>
+        Applications will be reviewed and participants will be accepted until all funds are allocated. Notification of acceptance into the CARES Plus Program will
+        made via email by September 4, 2016. If you have any difficulties with the
+        application, application documents or would like more information please call Lori Blackburn 530-295-2403 or Elizabeth Blakemore 530-295-2312.
+    </p>
+</fieldset>
+<div class="alert alert-info" role="alert">
+    <h3>Helpful Tips:</h3>
+    <ol>
+        <li>Fields marked with an asterisk (<span class="required">*</span>) are required fields.</li>
+        <li>Hold down your Ctrl key to make multiple selections in fields that allow.</li>
+        <li>Click 'Submit' to submit your application.</li>
+    </ol>
+</div>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.DateOfApplication)
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Teacher Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.MiddleInitial, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.MiddleInitial, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MiddleInitial, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.LastName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.PreviousLastName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.PreviousLastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PreviousLastName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DateOfBirth, new
+                            {
+                                @class = "form-control datepicker",
+                                @Value = DateTime.MinValue == Model.DateOfBirth ? string.Empty : Model.DateOfBirth.ToShortDateString()
+                            })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.CityOfBirth, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CityOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CityOfBirth, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.County, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("County", (IEnumerable<SelectListItem>)ViewBag.CountyChoices, new { @class = "select-2 form-control" })
+                            @Html.ValidationMessageFor(model => model.County, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.LastFiveSSN, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.LastFiveSSN, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastFiveSSN, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Gender, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("Gender", (IEnumerable<SelectListItem>)ViewBag.GenderChoices, " -- Select one -- ", new { @class = "select-2 form-control" })
+                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.PrimaryLanguage, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("PrimaryLanguage", (IEnumerable<SelectListItem>)ViewBag.LanguageChoices, " -- Select one -- ", new { @class = "select-2 form-control" })
+                            @Html.ValidationMessageFor(model => model.PrimaryLanguage, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SelectedEthnicities, htmlAttributes: new { @class = "control-label" })
+                            <i class="fa fa-info-circle text-primary fa-lg" data-toggle="tooltip" data-placement="top" title="Select all that apply, to the best of your knowledge."></i>
+                            <i class="fa fa-question-circle text-warning fa-lg" data-toggle="tooltip" data-placement="top" title="Hold down your Ctrl key to make multiple selections."></i>
+                            @Html.ListBoxFor(m => m.SelectedEthnicities, Model.AllEthnicities.OrderBy(x => x.Value), htmlAttributes: new { @class = "form-control", size = 8 })
+                            @Html.ValidationMessageFor(model => model.SelectedEthnicities, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.HomePhone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HomePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomePhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.CellPhone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Carrier, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Carrier, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Carrier, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Participate1, htmlAttributes: new { @class = "control-label" })
+                            <div class="radio-inline">
+                                @Html.RadioButton("Participate1", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("Participate1", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Participate2, htmlAttributes: new { @class = "control-label" })
+                            <div class="radio-inline">
+                                @Html.RadioButton("Participate2", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("Participate2", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.PriorUnits1, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.PriorUnits1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PriorUnits1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.PriorUnits2, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.PriorUnits2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PriorUnits2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.MailingAddress1, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.MailingAddress1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingAddress1, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.MailingAddress2, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.MailingAddress2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingAddress2, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.MailingAddressCity, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.MailingAddressCity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingAddressCity, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.MailingAddressState, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.MailingAddressState, (IEnumerable<SelectListItem>)ViewBag.MailingStates, "--- Select State ---", new { @class = "form-control select-2 " })
+                            @Html.ValidationMessageFor(model => model.MailingAddressState, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.MailingAddressZip, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.MailingAddressZip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingAddressZip, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.HomeAddress1, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HomeAddress1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomeAddress1, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.HomeAddress2, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HomeAddress2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomeAddress2, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.HomeAddressCity, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HomeAddressCity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomeAddressCity, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.HomeAddressState, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.HomeAddressState, (IEnumerable<SelectListItem>)ViewBag.HomeStates, "--- Select State ---", new { @class = "form-control select-2 " })
+                            @Html.ValidationMessageFor(model => model.HomeAddressState, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.HomeAddressZip, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HomeAddressZip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomeAddressZip, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Program Components</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Core, htmlAttributes: new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Core)
+                            @Html.ValidationMessageFor(model => model.Core, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.AgeGroup, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.AgeGroup, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AgeGroup, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.ProgramComponentApplying, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ProgramComponentApplying, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProgramComponentApplying, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.AgeGroup2, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.AgeGroup2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AgeGroup2, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Language, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Language, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Language, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Current Work Facility</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Site, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Site, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Site, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.WorkPhone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.WorkPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.WorkPhone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.DirectorFirstName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.DirectorFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DirectorFirstName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.DirectorLastName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.DirectorLastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DirectorLastName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.LicenseNumber, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.LicenseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LicenseNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SiteAddress1, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.SiteAddress1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SiteAddress1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SiteAddress2, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.SiteAddress2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SiteAddress2, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SiteCity, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.SiteCity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SiteCity, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SiteState, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.SiteState, (IEnumerable<SelectListItem>)ViewBag.WorkStates, "--- Select State ---", new { @class = "form-control select-2 " })
+                            @Html.ValidationMessageFor(model => model.SiteState, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SiteZip, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.SiteZip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SiteZip, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="SelectedPrograms" class="control-label">Which best describes your child care program?<span class="text-danger">&nbsp;&nbsp;*</span>
+                            </label>
+                            <i class="fa fa-info-circle text-primary fa-lg" data-toggle="tooltip" data-placement="top" title="Select all that apply, to the best of your knowledge."></i>
+                            <i class="fa fa-question-circle text-warning fa-lg" data-toggle="tooltip" data-placement="top" title="Hold down your Ctrl key to make multiple selections."></i>
+                            @Html.ListBoxFor(m => m.SelectedPrograms, Model.AllPrograms.OrderBy(x => x.Value), htmlAttributes: new { @class = "form-control", size = 9 })
+                            @Html.ValidationMessageFor(model => model.SelectedPrograms, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Current Employment</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.TimeInField, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.TimeInField, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TimeInField, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.TimeWithCurrent, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.TimeWithCurrent, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TimeWithCurrent, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.StartDate, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.StartDate, new
+                               {
+                                   @class = "form-control datepicker",
+                                   @Value = DateTime.MinValue == Model.StartDate ? string.Empty : Model.StartDate.ToShortDateString()
+                               })
+                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.AnnualSalary, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.AnnualSalary, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AnnualSalary, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.ClassroomLanguage, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("ClassroomLanguage", (IEnumerable<SelectListItem>)ViewBag.LanguageChoices, " -- Select one -- ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ClassroomLanguage, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.CoachingLanguage, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("CoachingLanguage", (IEnumerable<SelectListItem>)ViewBag.LanguageChoices, " -- Select one -- ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CoachingLanguage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SettingType, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("SettingType", (IEnumerable<SelectListItem>)ViewBag.SettingChoices, " -- Select one -- ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SettingType, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.PositionTitle1, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("PositionTitle1", (IEnumerable<SelectListItem>)ViewBag.PositionChoices, " -- Select one -- ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PositionTitle1, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.PositionTitle2, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.PositionTitle2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PositionTitle2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Num0To17, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Num0To17, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Num0To17, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Num18To35, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Num18To35, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Num18To35, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Num36Up, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Num36Up, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Num36Up, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.KinderUp, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.KinderUp, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.KinderUp, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.NumInProgram, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.NumInProgram, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NumInProgram, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.NumIEPs, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.NumIEPs, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NumIEPs, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.DualLanguage, htmlAttributes: new { @class = "control-label" })
+                            <div class="radio-inline">
+                                @Html.RadioButton("DualLanguage", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("DualLanguage", "False", true, new { id = "IsNo" }) No
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.AddtlInfo, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.AddtlInfo, 5, 5, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AddtlInfo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Education</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.LevelEducation, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("LevelEducation", (IEnumerable<SelectListItem>)ViewBag.EducationChoices, " -- Select one -- ", new { @class = "select-2 form-control" })
+                            @Html.ValidationMessageFor(model => model.LevelEducation, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.DateOfAttainment, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DateOfAttainment, new
+                               {
+                                   @class = "form-control datepicker",
+                                   @Value = DateTime.MinValue == Model.DateOfAttainment ? string.Empty : Model.DateOfAttainment.ToShortDateString()
+                               })
+                            @Html.ValidationMessageFor(model => model.DateOfAttainment, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SelectedDegrees, htmlAttributes: new { @class = "control-label" })
+                            @Html.ListBoxFor(m => m.SelectedDegrees, Model.AllDegrees.OrderBy(x => x.Value), htmlAttributes: new { @class = "form-control", size = 4 })
+                            @Html.ValidationMessageFor(model => model.SelectedDegrees, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Field, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.Field, fields, " -- Select one -- ", new { @class = "form-control select-2" })
+                            @Html.ValidationMessageFor(model => model.Field, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.Permits, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("Permit", (IEnumerable<SelectListItem>)ViewBag.PermitChoices, " -- Select one -- ", new { @class = "select-2 form-control" })
+                            @Html.ValidationMessageFor(model => model.Permits, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.TeachingCredential, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("TeachingCredential", (IEnumerable<SelectListItem>)ViewBag.CredentialResponseChoices, " -- Select one -- ", new { @class = "select-2 form-control" })
+                            @Html.ValidationMessageFor(model => model.TeachingCredential, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelForWithAsterisk(model => model.SelectedCredentialTypes, htmlAttributes: new { @class = "control-label" })
+                            @Html.ListBoxFor(m => m.SelectedCredentialTypes, Model.AllCredentialTypes.OrderBy(x => x.Text), htmlAttributes: new { @class = "form-control", size = 13 })
+                            @Html.ValidationMessageFor(model => model.SelectedCredentialTypes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Agreements</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.GaveConsent, htmlAttributes: new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(model => model.GaveConsent)
+                            @Html.ValidationMessageFor(model => model.GaveConsent, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Signature, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Signature, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Signature, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.SignatureDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.SignatureDate, new
+                           {
+                               @class = "form-control datepicker",
+                               @Value = DateTime.MinValue == Model.SignatureDate ? string.Empty : Model.SignatureDate.ToShortDateString()
+                           })
+                        @Html.ValidationMessageFor(model => model.SignatureDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(".datepicker").datepicker().on('changeDate', function (ev) {
+            $(this).datepicker("hide");
+        });
+
+            function reset() {
+                //validationReset();
+                initializeCheckboxes();
+                //resizeJquerySteps();
+                $("select").select2();
+                $('[data-toggle="tooltip"]').tooltip();
+                $(".temp-disable").removeClass("disabled temp-disable");
+                $(".datepicker").datepicker().on('changeDate', function (ev) {
+                    $(this).datepicker("hide");
+                });
+            }
+
+            function initializeCheckboxes() {
+                $('input[type="checkbox"]').checkbox({
+                    checkedClass: 'fa fa-check',
+                    uncheckedClass: 'fa fa-square-o'
+                });
+            }
+
+    </script>
+}
+

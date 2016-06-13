@@ -1,0 +1,1043 @@
+﻿@model NewCaresPlusMvc.Models.ApplicationViewModel
+@using NewCaresPlusMvc.Helpers
+@using System.Linq;
+
+@{
+    ViewBag.Title = "CARES Plus Application";
+    IEnumerable<SelectListItem> genders = (new List<string>() { "Female", "Male" }).ToSelectList(s => s, s => s, s => s == Model.Gender);
+}
+
+<h1>High 5 for Quality CARES <small>Professional Development Incentive Program</small></h1>
+<p>We are now accepting applications. Applicants must complete the online application and submit the required additional signed documentation. The program is open until filled.  Should applications exceed the funding available, applicants will be prioritized by the date of application, number of years in the field, and identified priority zones.</p>
+
+<fieldset>
+    <legend>To apply for CARES for 2016-17:</legend>
+    <ul>
+        <li>STEP 1: Complete the online application below.</li>
+        <li>STEP 2: Download and print the <a href="~/Documents/Application Docs.pdf">Application Documentation</a> 
+        (<a href="~/Documents/Application Docs (Spanish).pdf">Spanish</a>) for additional application documents. Complete and submit by mail or fax to 530-295-1506.</li>
+    </ul>
+</fieldset>
+<p style="font-style: italic">
+    If you have questions or need help completing the application, please contact Lori Blackburn at (530) 295-2403 or <a href="mailto:lblackburn@edcoe.org">lblackburn@edcoe.org</a>.
+</p>
+<div class="alert alert-info" role="alert">
+    <h3>Helpful Tips:</h3>
+    <ol>
+        <li>Fields marked with an asterisk (<span class="required">*</span>) are required fields.</li>
+        <li>If you select 'Other' in a list you must specify the other in the text box.</li>
+        <li>Click 'Submit' to submit your application.</li>
+    </ol>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Applying For</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <h4 style="padding-left:0px;">Teacher Incentive Options: (choose up to two options)</h4>
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.CompA)
+                                <span style="text-indent:-3em;"><strong><u>Component A:</u> $500 Stipend awarded in June 2017</strong></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompA, "", new { @class = "text-danger" })
+                            <p style="margin-left:3em;">I plan to complete 21 hours of Professional Development including documented coaching hours, CPIN/ WESTED/ CDE and other high quality pre-planned and pre-approved training $500).</p>
+
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.CompB)
+                                <span style="text-indent:-3em;"><strong><u>Component B:</u> $300 scholarship awarded in January 2017 or June 2017</strong></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompB, "", new { @class = "text-danger" })
+                            <p style="margin-left:3em;">I plan to complete 3 semester units/4 quarter units of coursework passed with a “C” or better that makes progress on the California Child Development Permit Matrix or lead to an Associate Degree in ECE or Related Field.</p>
+
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.CompC)
+                                <strong>
+                                    <u>Component C:</u> $600 scholarship awarded in January 2017 or June 2017($600 Maximum scholarship per year per person;<br />
+                                    <span style="padding-left:3em;">may receive partial payment in January after completion of first course)</span>
+                                </strong>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompC, "", new { @class = "text-danger" })
+                            <p style="margin-left:3em;">I plan to complete 6 semester/8 quarter units of coursework passed with a “C” or better that makes progress on the California Child Development Permit Matrix or leads to an Associate’s Degree in ECE or Related Field.</p>
+
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.CompD)
+                                <span style="text-indent:-3em;"><strong><u>Component D:</u> $2000 scholarship awarded in June 2017; may receive partial payment in January 2017 after completion of 6 upper division units</strong></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CompD, "", new { @class = "text-danger" })
+                            <p style="margin-left:3em;">I plan to complete 12 or more units towards Bachelor’s Degree in Child Development or Related Major.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Applicant</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.Gender, genders, " -- Select one -- ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Dob, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Dob, new
+                       {
+                           @class = "form-control datepicker",
+                           @Value = DateTime.MinValue == Model.Dob ? string.Empty : Model.Dob.ToShortDateString()
+                       })
+                            @Html.ValidationMessageFor(model => model.Dob, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.BirthCity, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.BirthCity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BirthCity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Ssn5, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Ssn5, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Ssn5, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.HomePhone, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.HomePhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HomePhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.WorkPhone, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.WorkPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.WorkPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CellPhone, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingAddress, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.MailingAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingCity, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.MailingCity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingCity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingState, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(m => m.MailingState, (IEnumerable<SelectListItem>)ViewBag.States, " -- Select one -- ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MailingState, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MailingZip, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.MailingZip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MailingZip, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Race, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.Race, (IEnumerable<SelectListItem>)ViewBag.Races, " -- Select one -- ",
+                    new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Race, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RaceSpecify, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.RaceSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RaceSpecify, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Primary Language(s) Spoken at Home</h4>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlEnglish, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlEnglish", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlEnglish", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlEnglish, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlMandarin, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlMandarin", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlMandarin", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlMandarin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlRussian, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlRussian", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlRussian", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlRussian, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlSpanish, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlSpanish", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlSpanish", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlSpanish, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlTagalog, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlTagalog", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlTagalog", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlTagalog, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlViet, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlViet", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlViet", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlViet, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlHmong, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlHmong", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlHmong", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlHmong, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.PlOther, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("PlOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PlOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PlSpecify, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.PlSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PlSpecify, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Other Language(s) Spoken Fluently</h4>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlEnglish, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlEnglish", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlEnglish", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlEnglish, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlMandarin, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlMandarin", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlMandarin", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlMandarin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlRussian, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlRussian", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlRussian", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlRussian, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlSpanish, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlSpanish", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlSpanish", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlSpanish, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlTagalog, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlTagalog", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlTagalog", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlTagalog, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlViet, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlViet", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlViet", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlViet, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlHmong, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlHmong", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlHmong", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlHmong, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FlOther, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("FlOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.FlOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FlSpecify, htmlAttributes: new { @class = "control-label col-md-4", style = "text-align:left;" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.FlSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FlSpecify, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Education</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Education, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Education, (IEnumerable<SelectListItem>)ViewBag.EdLevels, " -- Select one -- ",
+                        new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Education, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Foreign, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Foreign, (IEnumerable<SelectListItem>)ViewBag.ForeignDegrees, " -- Select one -- ",
+                        new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Foreign, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Degree Major for AA/AS</h4>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.AaEce, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaEce", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaEce", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AaEce, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.AaEd, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaEd", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaEd", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AaEd, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.AaBus, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaBus", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaBus", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AaBus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.AaOther, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("AaOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AaOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Degree Major for BA/BS</h4>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.BaEce, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaEce", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaEce", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.BaEce, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.BaEd, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaEd", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaEd", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.BaEd, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.BaBus, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaBus", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaBus", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.BaBus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.BaOther, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("BaOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.BaOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Degree Major for Master's Degree</h4>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MaEce, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaEce", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaEce", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MaEce, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MaEd, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaEd", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaEd", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MaEd, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MaBus, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaBus", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaBus", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MaBus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MaOther, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("MaOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MaOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Degree Major for Doctorate</h4>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.DocEce, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocEce", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocEce", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DocEce, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.DocEd, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocEd", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocEd", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DocEd, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.DocBus, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocBus", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocBus", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DocBus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.DocOther, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("DocOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DocOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Permits and Credentials</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Permit, htmlAttributes: new { @class = "control-label", style = "text-align:left;" })
+                        @Html.DropDownListFor(model => model.Permit, (IEnumerable<SelectListItem>)ViewBag.Permits, " -- Select one -- ",
+                            new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Permit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredNone, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            @*These are reversed on purpose*@
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredNone", "False", new { id = "IsNo" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredNone", "True", true, new { id = "IsYes" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredNone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredAdmin, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredAdmin", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredAdmin", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredAdmin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredBilingual, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredBilingual", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredBilingual", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredBilingual, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredClinical, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredClinical", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredClinical", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredClinical, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredEarly, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredEarly", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredEarly", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredEarly, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredMultiple, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredMultiple", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredMultiple", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredMultiple, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredPupil, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredPupil", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredPupil", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredPupil, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredReading, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredReading", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredReading", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredReading, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredSchool, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSchool", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSchool", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredSchool, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredSingle, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSingle", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSingle", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredSingle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredSpec, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSpec", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSpec", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredSpec, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredSpeech, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSpeech", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredSpeech", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredSpeech, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.CredOther, htmlAttributes: new { @class = "control-label col-md-6", style = "text-align:left;" })
+                        <div class="col-md-6">
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredOther", "True", new { id = "IsYes" }) Yes
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButton("CredOther", "False", true, new { id = "IsNo" }) No
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CredOther, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Work Setting</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.EmployerName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.EmployerName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmployerName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.DirectorFirstName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.DirectorFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DirectorFirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.DirectorLastName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.DirectorLastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DirectorLastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Setting, htmlAttributes: new { @class = "control-label", style="width:300px;text-align:left;" })
+                        @Html.DropDownListFor(model => model.Setting, (IEnumerable<SelectListItem>)ViewBag.Settings, " -- Select one -- ",
+                            new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Setting, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SettingSpecify, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.SettingSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SettingSpecify, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Position, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.Position, (IEnumerable<SelectListItem>)ViewBag.Positions, " -- Select one -- ",
+                            new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PositionSpecify, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.PositionSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PositionSpecify, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FccPosition, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.FccPosition, (IEnumerable<SelectListItem>)ViewBag.FccPositions, " -- Select one -- ",
+                    new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FccPosition, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FccSpecify, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.FccSpecify, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FccSpecify, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.WorkCity, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.WorkCity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WorkCity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.WorkCounty, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.WorkCounty, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WorkCounty, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.WorkZip, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.WorkZip, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.WorkZip, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.TenureEce, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.TenureEce, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenureEce, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.TenureEmploy, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.TenureEmploy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenureEmploy, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.TenurePosition, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.TenurePosition, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TenurePosition, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.HoursWeek, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.HoursWeek, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HoursWeek, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.MonthsYear, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.MonthsYear, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MonthsYear, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.SalaryHour, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            @Html.EditorFor(model => model.SalaryHour, new { htmlAttributes = new { @class = "form-control", style = "width:244px;text-align:right;" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.SalaryHour, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.SalaryMonth, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            @Html.EditorFor(model => model.SalaryMonth, new { htmlAttributes = new { @class = "form-control", style = "width:244px;text-align:right;" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.SalaryMonth, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.SalaryYear, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            @Html.EditorFor(model => model.SalaryYear, new { htmlAttributes = new { @class = "form-control", style = "width:244px;text-align:right;" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.SalaryYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Children Served in Classroom (if Family Child Care Home, list children served in program)</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.TotalKids, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.TotalKids, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TotalKids, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.LessThanOne, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.LessThanOne, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LessThanOne, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.OneYear, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.OneYear, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OneYear, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.TwoYears, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.TwoYears, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TwoYears, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.ThreeYears, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ThreeYears, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ThreeYears, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.FourYears, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.FourYears, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FourYears, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.SchoolAge, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.SchoolAge, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SchoolAge, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.Dll, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.Dll, (IEnumerable<SelectListItem>)ViewBag.YesNoDontKnows, " -- Select one -- ",
+                                        new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Dll, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.IsfpIep, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.IsfpIep, (IEnumerable<SelectListItem>)ViewBag.YesNoDontKnows, " -- Select one -- ",
+                                        new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IsfpIep, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelForWithAsterisk(model => model.ZeroToThirtySixMonths, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.ZeroToThirtySixMonths, (IEnumerable<SelectListItem>)ViewBag.YesNoDontKnows, " -- Select one -- ",
+                                        new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ZeroToThirtySixMonths, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="submit" value="Apply" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/select2")
+    <script>
+        $('[data-toggle="tooltip"]').tooltip();
+        $('#Dob').datepicker({});    
+        $(document).ready(function () {
+            initializeCheckboxes();
+            //$('select').select2();
+        });
+
+        function initializeCheckboxes() {
+            $('input[type="checkbox"]').checkbox({
+                checkedClass: 'fa fa-check',
+                uncheckedClass: 'fa fa-square-o'
+            });
+        }
+
+    </script>
+}

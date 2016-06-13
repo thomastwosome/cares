@@ -1,0 +1,145 @@
+﻿@using NewCaresPlusMvc.Models
+@model List<ApplicantsbyComponent>
+
+@{
+    const int reportTypeId = (int)ReportType.Applications_by_Component;
+}
+
+@if (Model.Count == 0)
+{
+    Html.RenderPartial("_Fail", "No applications exist");
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <i class="fa fa-file-excel-o"></i>
+            @Html.ActionLink("Excel", "GetReport", new { formatId = (int)ReportViewModel.ReportFormat.Excel, reportTypeId }, new { target = "_blank" })
+        </div>
+        <p>&nbsp;</p>
+        <div class="col-md-12">
+            <h4>@ViewBag.Acount Component A Applicant(s)</h4>
+            <table class="table table-bordered table-condensed table-hover small">
+                <thead>
+                    <tr>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].EmployerName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].LastName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].FirstName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].PrimaryPosition)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].Email)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].WorkPhone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CompA == true)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => item.EmployerName)</td>
+                                <td>@Html.DisplayFor(model => item.LastName)</td>
+                                <td>@Html.DisplayFor(model => item.FirstName)</td>
+                                <td>@Html.DisplayFor(model => item.PrimaryPosition)</td>
+                                <td>@Html.DisplayFor(model => item.Email)</td>
+                                <td>@Html.DisplayFor(model => item.WorkPhone)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <h4>@ViewBag.Bcount Component B Applicant(s)</h4>
+            <table class="table table-bordered table-condensed table-hover small">
+                <thead>
+                    <tr>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].EmployerName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].LastName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].FirstName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].PrimaryPosition)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].Email)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].WorkPhone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CompB == true)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => item.EmployerName)</td>
+                                <td>@Html.DisplayFor(model => item.LastName)</td>
+                                <td>@Html.DisplayFor(model => item.FirstName)</td>
+                                <td>@Html.DisplayFor(model => item.PrimaryPosition)</td>
+                                <td>@Html.DisplayFor(model => item.Email)</td>
+                                <td>@Html.DisplayFor(model => item.WorkPhone)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <h4>@ViewBag.Ccount Component C Applicant(s)</h4>
+            <table class="table table-bordered table-condensed table-hover small">
+                <thead>
+                    <tr>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].EmployerName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].LastName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].FirstName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].PrimaryPosition)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].Email)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].WorkPhone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CompC == true)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => item.EmployerName)</td>
+                                <td>@Html.DisplayFor(model => item.LastName)</td>
+                                <td>@Html.DisplayFor(model => item.FirstName)</td>
+                                <td>@Html.DisplayFor(model => item.PrimaryPosition)</td>
+                                <td>@Html.DisplayFor(model => item.Email)</td>
+                                <td>@Html.DisplayFor(model => item.WorkPhone)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <h4>@ViewBag.Dcount Component D Applicant(s)</h4>
+            <table class="table table-bordered table-condensed table-hover small">
+                <thead>
+                    <tr>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].EmployerName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].LastName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].FirstName)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].PrimaryPosition)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].Email)</th>
+                        <th style="width:16%;">@Html.DisplayNameFor(model => model[0].WorkPhone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CompD == true)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => item.EmployerName)</td>
+                                <td>@Html.DisplayFor(model => item.LastName)</td>
+                                <td>@Html.DisplayFor(model => item.FirstName)</td>
+                                <td>@Html.DisplayFor(model => item.PrimaryPosition)</td>
+                                <td>@Html.DisplayFor(model => item.Email)</td>
+                                <td>@Html.DisplayFor(model => item.WorkPhone)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
