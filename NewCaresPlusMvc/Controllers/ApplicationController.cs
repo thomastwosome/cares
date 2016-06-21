@@ -4,8 +4,6 @@ using NewModel;
 using NewModel.Helpers;
 using NewModel.Infrastructure;
 using System;
-using System.Data.Entity.Core;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
@@ -38,15 +36,15 @@ namespace NewCaresPlusMvc.Controllers
             if (ModelState.IsValid)
             {
                 entity = model.ToEntity(entity);
-                entity.OrgCode = "01234567";
-                entity.TrainName = "Preschool Learning Foundations";
+                entity.OrgCode = CommonConstants.OrgCode;
+                entity.TrainName = CommonConstants.TrainName;
                 entity.TrainDate = DateTime.Now.ToPstTime();
                 entity.Registry = true;
-                entity.RegistryId = "123456789";
+                entity.RegistryId = CommonConstants.RegistryId;
                 var month = entity.Dob.Month;
                 var day = entity.Dob.Day;
                 var year = entity.Dob.Year;
-                entity.ParticipantId = month.ToString() + day.ToString() + year.ToString() + entity.Ssn5;
+                entity.ParticipantId = month + day.ToString() + year + entity.Ssn5;
 
                 var x = 0;
                 if (entity.CompA) { x++; }
@@ -70,33 +68,20 @@ namespace NewCaresPlusMvc.Controllers
                     return View(model);
                 }
 
-                try
-                {
+                //try
+                //{
                     _db.Applications.Add(entity);
                     _db.SaveChanges();
 
                     SendThankYouEmail(model.Email);
                     SendNotificationEmail();
                     return View("ThankYou");
-                }
-                catch (Exception uex)
-                {
-                    var ex = uex.GetBaseException();
-                    //SqlException innerException = uex.InnerException as SqlException;
-                    if (ex != null)
-                    {
-                        Debug.WriteLine(ex.ToString());
-                        ModelState.AddModelError(string.Empty, "That date of birth and social security number has already been used");
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                //catch (Exception ex)
+                //}
+                //catch (Exception uex)
                 //{
-                //    Debug.WriteLine(ex.GetBaseException().ToString());
-                //    ModelState.AddModelError(string.Empty, ex.GetBaseException().ToString());
+                //    var ex = uex.GetBaseException();
+                //    Debug.WriteLine(ex.ToString());
+                //    ModelState.AddModelError(string.Empty, "That date of birth and social security number has already been used");
                 //}
             }
 
@@ -138,10 +123,12 @@ namespace NewCaresPlusMvc.Controllers
             var filename = Server.MapPath("~/App_Data/ThankYou.htm");
             var mailBody = System.IO.File.ReadAllText(filename);
 
-            var myMessage = new MailMessage();
-            myMessage.Subject = "Response from CARES Application 2016-17";
-            myMessage.Body = mailBody;
-            myMessage.IsBodyHtml = true;
+            var myMessage = new MailMessage
+            {
+                Subject = "Response from CARES Application 2016-17",
+                Body = mailBody,
+                IsBodyHtml = true
+            };
 
             myMessage.To.Add(new MailAddress(email, email));
             var attachment1 = Server.MapPath("~/Documents/Application Docs.pdf");
@@ -159,10 +146,12 @@ namespace NewCaresPlusMvc.Controllers
             var filename = Server.MapPath("~/App_Data/Notification.htm");
             var mailBody = System.IO.File.ReadAllText(filename);
 
-            var myMessage = new MailMessage();
-            myMessage.Subject = "New CARES Application 2016-17";
-            myMessage.Body = mailBody;
-            myMessage.IsBodyHtml = true;
+            var myMessage = new MailMessage
+            {
+                Subject = "New CARES Application 2016-17",
+                Body = mailBody,
+                IsBodyHtml = true
+            };
 
             myMessage.To.Add(new MailAddress("lblackburn@edcoe.org", "Lori Blackburn"));
 

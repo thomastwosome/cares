@@ -16,7 +16,10 @@ namespace NewCaresPlusMvc
             Mapper.CreateMap<AllApplicationsReport, Application>();
 
             Mapper.CreateMap<Application, ApplicationViewModel>();
-            Mapper.CreateMap<ApplicationViewModel, Application>();
+            Mapper.CreateMap<ApplicationViewModel, Application>()
+                .ForMember(d => d.HomePhone, op => op.MapFrom(s => s.HomePhone.StripPunctuation()))
+                .ForMember(d => d.WorkPhone, op => op.MapFrom(s => s.WorkPhone.StripPunctuation()))
+                .ForMember(d => d.CellPhone, op => op.MapFrom(s => s.CellPhone.StripPunctuation()));
 
             Mapper.CreateMap<Application, ApplicantsbyComponent>()
                 .ForMember(d => d.HomePhone, op => op.MapFrom(s => s.HomePhone.FormatPhoneNumber()))
@@ -77,7 +80,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.Races.FirstOrDefault(x => x.Id == source.Race);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -87,25 +90,27 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var answer = string.Empty;
-            if (source.Position == 11)
+            if (source.Position == CommonConstants.CenterOther)
             {
                 answer = source.PositionSpecify;
             }
             else
             {
-                var position = cxt.Positions.Where(x => x.Id == source.Position).FirstOrDefault();
-                answer = position.Description;
+                var position = cxt.Positions.FirstOrDefault(x => x.Id == source.Position);
+                if (position != null)
+                    answer = position.Description;
             }
             if (answer == string.Empty)
             {
-                if (source.FccPosition == 3)
+                if (source.FccPosition == CommonConstants.FccOther)
                 {
                     answer = source.FccSpecify;
                 }
                 else
                 {
-                    var position = cxt.FccPositions.Where(x => x.Id == source.FccPosition).FirstOrDefault();
-                    answer = position.Description;
+                    var position = cxt.FccPositions.FirstOrDefault(x => x.Id == source.FccPosition);
+                    if (position != null)
+                        answer = position.Description;
                 }
             }
             return answer;
@@ -118,7 +123,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.Educations.FirstOrDefault(x => x.Id == source.Education);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -128,7 +133,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.Foreigns.FirstOrDefault(x => x.Id == source.Foreign);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -138,7 +143,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.Permits.FirstOrDefault(x => x.Id == source.Permit);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -151,11 +156,8 @@ namespace NewCaresPlusMvc
             {
                 return source.SettingSpecify;
             }
-            else
-            {
-                var item = cxt.Settings.FirstOrDefault(x => x.Id == source.Setting);
-                return item.Description;
-            }
+            var item = cxt.Settings.FirstOrDefault(x => x.Id == source.Setting);
+            return item?.Description;
         }
     }
 
@@ -165,7 +167,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.Positions.FirstOrDefault(x => x.Id == source.Position);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -175,7 +177,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.FccPositions.FirstOrDefault(x => x.Id == source.FccPosition);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -185,7 +187,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.YesNoDontKnows.FirstOrDefault(x => x.Id == source.Dll);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -195,7 +197,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.YesNoDontKnows.FirstOrDefault(x => x.Id == source.IsfpIep);
-            return item.Description;
+            return item?.Description;
         }
     }
 
@@ -205,7 +207,7 @@ namespace NewCaresPlusMvc
         {
             var cxt = new DataContext();
             var item = cxt.YesNoDontKnows.FirstOrDefault(x => x.Id == source.ZeroToThirtySixMonths);
-            return item.Description;
+            return item?.Description;
         }
     }
 

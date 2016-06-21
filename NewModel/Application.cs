@@ -9,9 +9,9 @@ namespace NewModel
     {
         public int Id { get; set; }
 
-        [Index(IsUnique = true)]
+        //[Index(IsUnique = true)]
         [Required(ErrorMessage = "This field is required")]
-        [StringLength(13, ErrorMessage = "Required number of characters: 13")]
+        //[StringLength(13, ErrorMessage = "Required number of characters: 13")]
         public string ParticipantId { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
