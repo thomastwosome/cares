@@ -33,6 +33,22 @@ namespace NewCaresPlusMvc.Controllers
         {
             Application entity = new Application();
 
+            var x = 0;
+            if (model.CompA) { x++; }
+            if (model.CompB) { x++; }
+            if (model.CompC) { x++; }
+            if (model.CompD) { x++; }
+
+            if (x < 1)
+            {
+                ModelState.AddModelError(string.Empty, "You must apply for at least one incentive.");
+            }
+
+            if (x > 2)
+            {
+                ModelState.AddModelError(string.Empty, "You can apply for no more than two incentives.");
+            }
+
             if (ModelState.IsValid)
             {
                 entity = model.ToEntity(entity);
@@ -46,48 +62,19 @@ namespace NewCaresPlusMvc.Controllers
                 var year = entity.Dob.Year;
                 entity.ParticipantId = month + day.ToString() + year + entity.Ssn5;
 
-                var x = 0;
-                if (entity.CompA) { x++; }
-                if (entity.CompB) { x++; }
-                if (entity.CompC) { x++; }
-                if (entity.CompD) { x++; }
+                _db.Applications.Add(entity);
+                _db.SaveChanges();
 
-                if (x < 1)
-                {
-                    ModelState.AddModelError(string.Empty, "You must apply for at least one incentive.");
-                }
-
-                if (x > 2)
-                {
-                    ModelState.AddModelError(string.Empty, "You can apply for no more than two incentives.");
-                }
-
-                if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Any())
-                {
-                    model = PrepareApplicationViewModel(iModel: model);
-                    return View(model);
-                }
-
-                //try
-                //{
-                    _db.Applications.Add(entity);
-                    _db.SaveChanges();
-
-                    SendThankYouEmail(model.Email);
-                    SendNotificationEmail();
-                    return View("ThankYou");
-                //}
-                //catch (Exception uex)
-                //{
-                //    var ex = uex.GetBaseException();
-                //    Debug.WriteLine(ex.ToString());
-                //    ModelState.AddModelError(string.Empty, "That date of birth and social security number has already been used");
-                //}
+                SendThankYouEmail(model.Email);
+                SendNotificationEmail();
+                return View("ThankYou");
             }
 
-            model = PrepareApplicationViewModel(iModel: model);
-
-            return View(model);
+            //if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Any())
+            //{
+                model = PrepareApplicationViewModel(iModel: model);
+                return View(model);
+            //}
         }
 
         private ApplicationViewModel PrepareApplicationViewModel(Application entity = null, ApplicationViewModel iModel = null)
