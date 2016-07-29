@@ -185,6 +185,7 @@ namespace NewCaresPlusMvc.Models
         [Required(ErrorMessage = "This field is required")]
         [StringLength(5, ErrorMessage = "Required number of characters: 5")]
         [Display(Name = "Zip Code of Employment")]
+        [RegularExpression(CommonConstants.ZipRegex, ErrorMessage = "Please enter a valid zip code")]
         public string WorkZip { get; set; }
 
         [Display(Name ="Years in ECE field (if less than 1 year, enter 1")]
@@ -350,25 +351,30 @@ namespace NewCaresPlusMvc.Models
         [Required(ErrorMessage = "This field is required")]
         [StringLength(5)]
         [Display(Name = "Zip")]
+        [RegularExpression(CommonConstants.ZipRegex, ErrorMessage = "Please enter a valid zip code")]
         public string MailingZip { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         [StringLength(50, ErrorMessage = "Maximum of 50 characters")]
         [Display(Name = "Email")]
+        [RegularExpression(CommonConstants.EmailRegex, ErrorMessage = "Please enter a valid email address")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         [StringLength(50, ErrorMessage = "Maximum of 14 characters")]
         [Display(Name = "Home Phone")]
+        [RegularExpression(CommonConstants.PhoneRegex, ErrorMessage = "Please enter a valid phone number")]
         public string HomePhone { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         [StringLength(50, ErrorMessage = "Maximum of 14 characters")]
         [Display(Name = "Work Phone")]
+        [RegularExpression(CommonConstants.PhoneRegex, ErrorMessage = "Please enter a valid phone number")]
         public string WorkPhone { get; set; }
 
         [StringLength(50, ErrorMessage = "Maximum of 14 characters")]
         [Display(Name = "Cell Phone")]
+        [RegularExpression(CommonConstants.PhoneRegex, ErrorMessage = "Please enter a valid phone number")]
         public string CellPhone { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
